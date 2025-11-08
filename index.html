@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>حملة مركز نور الأمل</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              'brand-primary': '#0D9488',
+              'brand-secondary': '#14B8A6',
+              'brand-text-dark': '#1F2937',
+              'brand-text-light': '#6B7280',
+              'brand-background': '#F9FAFB',
+            },
+            fontFamily: {
+              sans: ['Cairo', 'sans-serif'],
+            },
+            keyframes: {
+              'fade-in': {
+                '0%': { opacity: '0' },
+                '100%': { opacity: '1' },
+              },
+              'slide-up': {
+                '0%': { transform: 'translateY(20px)', opacity: '0' },
+                '100%': { transform: 'translateY(0)', opacity: '1' },
+              },
+            },
+            animation: {
+              'fade-in': 'fade-in 0.3s ease-out',
+              'slide-up': 'slide-up 0.3s ease-out',
+            }
+          }
+        }
+      }
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <style>
+      body {
+        font-family: 'Cairo', sans-serif;
+        scroll-behavior: smooth;
+        background-color: #F9FAFB; /* upwork-background */
+      }
+      section[id] {
+        scroll-margin-top: 80px; /* Offset for sticky header */
+      }
+      .donor-list::-webkit-scrollbar {
+        width: 6px;
+      }
+      .donor-list::-webkit-scrollbar-track {
+        background: #f0f0f0;
+        border-radius: 10px;
+      }
+      .donor-list::-webkit-scrollbar-thumb {
+        background: #cdd4cb;
+        border-radius: 10px;
+      }
+      .donor-list::-webkit-scrollbar-thumb:hover {
+        background: #14B8A6;
+      }
+    </style>
+  <script type="importmap">
+{
+  "imports": {
+    "react/": "https://aistudiocdn.com/react@^19.2.0/",
+    "react": "https://aistudiocdn.com/react@^19.2.0",
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/"
+  }
+}
+</script>
+<link rel="stylesheet" href="/index.css">
+</head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/index.tsx"></script>
+  </body>
+</html>
