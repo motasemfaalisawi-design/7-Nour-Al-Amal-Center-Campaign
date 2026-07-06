@@ -1,0 +1,322 @@
+<title>توريد — اتجاهان للتصميم</title>
+<style>
+  :root {
+    /* غلاف العرض (محايد) */
+    --page-bg: #F4F4F2;
+    --page-ink: #23272A;
+    --page-muted: #6B7280;
+    --page-line: #DDDDD8;
+    --page-chip: #FFFFFF;
+
+    /* الاتجاه أ — السجل الرسمي */
+    --a-bg: #F7F5F0;
+    --a-surface: #FFFFFF;
+    --a-ink: #1C2B27;
+    --a-muted: #67736E;
+    --a-line: #E4E0D6;
+    --a-primary: #14614E;
+    --a-primary-ink: #F5FBF9;
+    --a-gold: #A87E27;
+    --a-danger: #B3372E;
+    --a-danger-bg: #F9ECEA;
+
+    /* الاتجاه ب — التطبيق العصري */
+    --b-bg: #F2F4FA;
+    --b-surface: #FFFFFF;
+    --b-ink: #171A22;
+    --b-muted: #676E80;
+    --b-line: #E2E6F0;
+    --b-primary: #2F3FA8;
+    --b-primary-ink: #F4F6FF;
+    --b-accent: #E08A00;
+    --b-accent-ink: #201400;
+    --b-danger: #C43D3D;
+    --b-danger-bg: #FBEDED;
+    --b-shadow: 0 6px 18px rgba(23, 26, 34, .07);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --page-bg: #191A1C; --page-ink: #E8E8E6; --page-muted: #9CA3AF; --page-line: #33353A; --page-chip: #232528;
+      --a-bg: #16150F; --a-surface: #201E17; --a-ink: #EAE7DD; --a-muted: #9E9A8C; --a-line: #37342A;
+      --a-primary: #2E8C72; --a-primary-ink: #0D1F1A; --a-gold: #D2A94F; --a-danger: #E07A6F; --a-danger-bg: #3A211E;
+      --b-bg: #10131C; --b-surface: #1A1E2A; --b-ink: #E9EBF2; --b-muted: #9AA1B5; --b-line: #2C3140;
+      --b-primary: #8B99F2; --b-primary-ink: #0E1220; --b-accent: #F0A62E; --b-accent-ink: #201400;
+      --b-danger: #E9807E; --b-danger-bg: #3A2323; --b-shadow: 0 6px 18px rgba(0,0,0,.35);
+    }
+  }
+  :root[data-theme="dark"] {
+    --page-bg: #191A1C; --page-ink: #E8E8E6; --page-muted: #9CA3AF; --page-line: #33353A; --page-chip: #232528;
+    --a-bg: #16150F; --a-surface: #201E17; --a-ink: #EAE7DD; --a-muted: #9E9A8C; --a-line: #37342A;
+    --a-primary: #2E8C72; --a-primary-ink: #0D1F1A; --a-gold: #D2A94F; --a-danger: #E07A6F; --a-danger-bg: #3A211E;
+    --b-bg: #10131C; --b-surface: #1A1E2A; --b-ink: #E9EBF2; --b-muted: #9AA1B5; --b-line: #2C3140;
+    --b-primary: #8B99F2; --b-primary-ink: #0E1220; --b-accent: #F0A62E; --b-accent-ink: #201400;
+    --b-danger: #E9807E; --b-danger-bg: #3A2323; --b-shadow: 0 6px 18px rgba(0,0,0,.35);
+  }
+  :root[data-theme="light"] {
+    --page-bg: #F4F4F2; --page-ink: #23272A; --page-muted: #6B7280; --page-line: #DDDDD8; --page-chip: #FFFFFF;
+    --a-bg: #F7F5F0; --a-surface: #FFFFFF; --a-ink: #1C2B27; --a-muted: #67736E; --a-line: #E4E0D6;
+    --a-primary: #14614E; --a-primary-ink: #F5FBF9; --a-gold: #A87E27; --a-danger: #B3372E; --a-danger-bg: #F9ECEA;
+    --b-bg: #F2F4FA; --b-surface: #FFFFFF; --b-ink: #171A22; --b-muted: #676E80; --b-line: #E2E6F0;
+    --b-primary: #2F3FA8; --b-primary-ink: #F4F6FF; --b-accent: #E08A00; --b-accent-ink: #201400;
+    --b-danger: #C43D3D; --b-danger-bg: #FBEDED; --b-shadow: 0 6px 18px rgba(23, 26, 34, .07);
+  }
+
+  .wrap { direction: rtl; font-family: "Segoe UI", "Noto Sans Arabic", "Noto Kufi Arabic", Tahoma, Arial, sans-serif; background: var(--page-bg); color: var(--page-ink); min-height: 100vh; padding: 0 0 64px; }
+  .wrap * { box-sizing: border-box; margin: 0; }
+
+  .intro { max-width: 640px; margin: 0 auto; padding: 36px 20px 8px; }
+  .intro .eyebrow { font-size: 12px; letter-spacing: .14em; color: var(--page-muted); font-weight: 600; }
+  .intro h1 { font-size: 26px; font-weight: 800; margin-top: 6px; text-wrap: balance; }
+  .intro p { margin-top: 10px; font-size: 15px; line-height: 1.8; color: var(--page-muted); max-width: 56ch; }
+
+  .switch { position: sticky; top: 10px; z-index: 20; display: flex; gap: 6px; max-width: 380px; margin: 22px auto 26px; padding: 5px; background: var(--page-chip); border: 1px solid var(--page-line); border-radius: 999px; }
+  .switch button { flex: 1; border: 0; background: transparent; color: var(--page-muted); font: inherit; font-size: 14px; font-weight: 700; padding: 10px 8px; border-radius: 999px; cursor: pointer; }
+  .switch button:focus-visible { outline: 2px solid var(--page-ink); outline-offset: 2px; }
+  .switch button[aria-pressed="true"].tabA { background: var(--a-primary); color: var(--a-primary-ink); }
+  .switch button[aria-pressed="true"].tabB { background: var(--b-primary); color: var(--b-primary-ink); }
+
+  .dir-label { max-width: 420px; margin: 0 auto 10px; padding: 0 8px; font-size: 13px; color: var(--page-muted); line-height: 1.7; }
+  .dir-label strong { color: var(--page-ink); }
+
+  .mock { max-width: 420px; margin: 0 auto; border: 1px solid var(--page-line); border-radius: 22px; overflow: hidden; }
+  section.hidden { display: none; }
+
+  .pill { display: inline-block; font-size: 11px; font-weight: 700; padding: 3px 9px; border-radius: 999px; white-space: nowrap; }
+  .num { font-variant-numeric: tabular-nums; }
+
+  /* ============ الاتجاه أ: السجل الرسمي ============ */
+  .A .mock { background: var(--a-bg); color: var(--a-ink); }
+  .A .top { background: var(--a-primary); color: var(--a-primary-ink); padding: 14px 16px 12px; }
+  .A .brandline { display: flex; align-items: baseline; justify-content: space-between; }
+  .A .brand { font-size: 22px; font-weight: 800; }
+  .A .region { font-size: 11px; font-weight: 700; border: 1px solid currentColor; border-radius: 4px; padding: 2px 8px; opacity: .95; }
+  .A .tagline { font-size: 12px; opacity: .85; margin-top: 3px; }
+  .A .search { margin: 12px 0 2px; background: color-mix(in srgb, var(--a-primary-ink) 14%, transparent); border: 1px solid color-mix(in srgb, var(--a-primary-ink) 30%, transparent); border-radius: 6px; padding: 9px 12px; font-size: 13px; opacity: .9; }
+  .A .tabs { display: flex; gap: 18px; padding: 0 16px; background: var(--a-surface); border-bottom: 2px solid var(--a-line); overflow-x: auto; scrollbar-width: none; }
+  .A .tabs span { padding: 11px 2px 9px; font-size: 13px; font-weight: 600; color: var(--a-muted); white-space: nowrap; border-bottom: 2px solid transparent; margin-bottom: -2px; }
+  .A .tabs .on { color: var(--a-primary); border-color: var(--a-primary); font-weight: 800; }
+  .A .row { background: var(--a-surface); padding: 13px 16px; border-bottom: 1px solid var(--a-line); }
+  .A .row h3 { font-size: 14.5px; font-weight: 700; line-height: 1.55; }
+  .A .meta { display: flex; flex-wrap: wrap; gap: 6px 14px; margin-top: 7px; font-size: 12px; color: var(--a-muted); }
+  .A .meta .org { font-weight: 700; color: var(--a-ink); }
+  .A .foot { display: flex; justify-content: space-between; align-items: center; margin-top: 9px; }
+  .A .sector { font-size: 11px; font-weight: 700; color: var(--a-primary); border: 1px solid color-mix(in srgb, var(--a-primary) 45%, transparent); border-radius: 4px; padding: 2px 8px; }
+  .A .due { font-size: 12px; color: var(--a-muted); }
+  .A .due .pill { background: var(--a-danger-bg); color: var(--a-danger); margin-inline-start: 6px; }
+  .A .due .ok { background: color-mix(in srgb, var(--a-primary) 12%, transparent); color: var(--a-primary); }
+  .A .gold { color: var(--a-gold); font-size: 11px; font-weight: 800; letter-spacing: .06em; }
+  .A .cta { margin: 14px 16px; background: var(--a-surface); border: 1px solid var(--a-line); border-radius: 8px; padding: 14px 16px; }
+  .A .cta b { font-size: 14px; }
+  .A .cta p { font-size: 12.5px; color: var(--a-muted); margin-top: 4px; line-height: 1.7; }
+  .A .cta .btn { display: inline-block; margin-top: 10px; background: var(--a-primary); color: var(--a-primary-ink); font-size: 13px; font-weight: 700; border-radius: 6px; padding: 9px 18px; }
+  .A .nav { display: flex; background: var(--a-surface); border-top: 1px solid var(--a-line); }
+  .A .nav div { flex: 1; text-align: center; font-size: 11.5px; padding: 11px 4px; color: var(--a-muted); font-weight: 600; }
+  .A .nav .on { color: var(--a-primary); font-weight: 800; }
+
+  /* ============ الاتجاه ب: التطبيق العصري ============ */
+  .B .mock { background: var(--b-bg); color: var(--b-ink); }
+  .B .top { padding: 18px 16px 4px; }
+  .B .brandline { display: flex; align-items: center; justify-content: space-between; }
+  .B .brand { font-size: 24px; font-weight: 800; color: var(--b-primary); }
+  .B .region { font-size: 11px; font-weight: 700; background: var(--b-surface); border: 1px solid var(--b-line); border-radius: 999px; padding: 5px 12px; color: var(--b-muted); }
+  .B .hello { font-size: 13px; color: var(--b-muted); margin-top: 2px; }
+  .B .search { margin: 14px 16px 4px; background: var(--b-surface); border: 1px solid var(--b-line); border-radius: 14px; padding: 12px 14px; font-size: 13px; color: var(--b-muted); box-shadow: var(--b-shadow); }
+  .B .chips { display: flex; gap: 8px; padding: 12px 16px 4px; overflow-x: auto; scrollbar-width: none; }
+  .B .chips span { font-size: 12.5px; font-weight: 700; background: var(--b-surface); border: 1px solid var(--b-line); color: var(--b-muted); border-radius: 999px; padding: 7px 14px; white-space: nowrap; }
+  .B .chips .on { background: var(--b-primary); border-color: var(--b-primary); color: var(--b-primary-ink); }
+  .B .card { background: var(--b-surface); border-radius: 16px; margin: 12px 16px; padding: 14px 16px; box-shadow: var(--b-shadow); border: 1px solid var(--b-line); }
+  .B .cardhead { display: flex; justify-content: space-between; gap: 10px; align-items: flex-start; }
+  .B .card h3 { font-size: 14.5px; font-weight: 800; line-height: 1.55; }
+  .B .badge { font-size: 10.5px; font-weight: 800; background: var(--b-danger-bg); color: var(--b-danger); border-radius: 999px; padding: 4px 10px; white-space: nowrap; }
+  .B .badge.calm { background: color-mix(in srgb, var(--b-primary) 12%, transparent); color: var(--b-primary); }
+  .B .org { display: flex; align-items: center; gap: 8px; margin-top: 9px; font-size: 12.5px; color: var(--b-muted); }
+  .B .avatar { width: 26px; height: 26px; border-radius: 8px; background: color-mix(in srgb, var(--b-primary) 16%, transparent); color: var(--b-primary); font-size: 11px; font-weight: 800; display: grid; place-items: center; }
+  .B .cardfoot { display: flex; justify-content: space-between; align-items: center; margin-top: 11px; padding-top: 10px; border-top: 1px dashed var(--b-line); font-size: 12px; color: var(--b-muted); }
+  .B .sector { font-weight: 800; color: var(--b-primary); }
+  .B .cta { margin: 16px; border-radius: 16px; padding: 16px; background: var(--b-primary); color: var(--b-primary-ink); }
+  .B .cta b { font-size: 14.5px; }
+  .B .cta p { font-size: 12.5px; opacity: .85; margin-top: 4px; line-height: 1.7; }
+  .B .cta .btn { display: inline-block; margin-top: 12px; background: var(--b-accent); color: var(--b-accent-ink); font-size: 13px; font-weight: 800; border-radius: 999px; padding: 10px 20px; }
+  .B .nav { display: flex; background: var(--b-surface); border-top: 1px solid var(--b-line); border-radius: 18px 18px 0 0; margin-top: 4px; }
+  .B .nav div { flex: 1; text-align: center; font-size: 11.5px; padding: 12px 4px; color: var(--b-muted); font-weight: 700; }
+  .B .nav .on { color: var(--b-primary); }
+
+  /* المقارنة */
+  .compare { max-width: 640px; margin: 40px auto 0; padding: 0 20px; }
+  .compare h2 { font-size: 18px; font-weight: 800; }
+  .compare .tablebox { overflow-x: auto; margin-top: 14px; }
+  .compare table { width: 100%; border-collapse: collapse; font-size: 13.5px; min-width: 480px; }
+  .compare th, .compare td { text-align: right; padding: 10px 12px; border-bottom: 1px solid var(--page-line); line-height: 1.7; vertical-align: top; }
+  .compare th { font-size: 12px; color: var(--page-muted); font-weight: 700; }
+  .compare td:first-child { color: var(--page-muted); white-space: nowrap; }
+  .ask { max-width: 640px; margin: 28px auto 0; padding: 18px 20px; }
+  .ask p { font-size: 15px; line-height: 1.9; }
+
+  @media (prefers-reduced-motion: no-preference) {
+    section.dirview { transition: opacity .2s ease; }
+  }
+</style>
+
+<div class="wrap">
+  <header class="intro">
+    <div class="eyebrow">توريد · TAWREED — عرض تصميم رقم 1</div>
+    <h1>اتجاهان بصريان للصفحة الرئيسية</h1>
+    <p>هاي معاينة حية مش صور — تصفّحها من موبايلك، بدّل بين الاتجاهين من الزرين، وجرّبها بالوضع الفاتح والغامق. المحتوى أمثلة واقعية لفرص توريد في غزة.</p>
+  </header>
+
+  <div class="switch" role="group" aria-label="التبديل بين الاتجاهين">
+    <button class="tabA" id="btnA" aria-pressed="true">أ · السجل الرسمي</button>
+    <button class="tabB" id="btnB" aria-pressed="false">ب · التطبيق العصري</button>
+  </div>
+
+  <!-- ============ الاتجاه أ ============ -->
+  <section class="A dirview" id="viewA">
+    <p class="dir-label"><strong>الفكرة:</strong> هيبة الجريدة الرسمية — أخضر مؤسسي عميق، صفوف كثيفة بفواصل رفيعة، كل بكسل بيقول "جهة موثوقة". روح جوبس بس بشكل 2026.</p>
+    <div class="mock" aria-label="معاينة الاتجاه أ">
+      <div class="top">
+        <div class="brandline"><span class="brand">توريد</span><span class="region">غزة</span></div>
+        <div class="tagline">فرص التوريد والمناقصات — أول بأول</div>
+        <div class="search">ابحث: مواد بناء، غذائيات، طاقة شمسية…</div>
+      </div>
+      <div class="tabs">
+        <span class="on">الكل</span><span>إنشاءات</span><span>غذائيات</span><span>طاقة</span><span>لوجستيات</span><span>خدمات تقنية</span>
+      </div>
+
+      <article class="row">
+        <div class="gold">★ فرصة مميزة</div>
+        <h3>استدراج عروض أسعار: توريد 40 خيمة عائلية ومستلزمات إيواء</h3>
+        <div class="meta"><span class="org">الهلال الأحمر الفلسطيني</span><span>المصدر: wenak.ps</span><span>نُشر اليوم</span></div>
+        <div class="foot">
+          <span class="sector">إيواء ولوازم</span>
+          <span class="due num">إغلاق 09/07<span class="pill">باقي 4 أيام</span></span>
+        </div>
+      </article>
+
+      <article class="row">
+        <h3>توريد مواد غذائية أساسية لمراكز الإيواء — شمال غزة</h3>
+        <div class="meta"><span class="org">الأونروا UNRWA</span><span>المصدر: UNGM</span><span>نُشر أمس</span></div>
+        <div class="foot">
+          <span class="sector">غذائيات</span>
+          <span class="due num">إغلاق 14/07<span class="pill ok">باقي 9 أيام</span></span>
+        </div>
+      </article>
+
+      <article class="row">
+        <h3>توريد ألواح طاقة شمسية وبطاريات تخزين لمرافق صحية</h3>
+        <div class="meta"><span class="org">جمعية العون الطبي</span><span>المصدر: tender4arab</span><span>نُشر أمس</span></div>
+        <div class="foot">
+          <span class="sector">طاقة</span>
+          <span class="due num">إغلاق 12/07<span class="pill">باقي 7 أيام</span></span>
+        </div>
+      </article>
+
+      <div class="cta">
+        <b>خلّي الفرص تلاحقك، مش العكس</b>
+        <p>فعّل تنبيهات تخصصك وبتوصلك كل فرصة جديدة فور نشرها — مجاناً على تيليجرام.</p>
+        <span class="btn">فعّل التنبيهات</span>
+      </div>
+
+      <article class="row">
+        <h3>أعمال إزالة ركام وتأهيل طرق — حي الزيتون</h3>
+        <div class="meta"><span class="org">UNDP / PAPP</span><span>المصدر: UNDP</span><span>نُشر 03/07</span></div>
+        <div class="foot">
+          <span class="sector">إنشاءات</span>
+          <span class="due num">إغلاق 21/07<span class="pill ok">باقي 16 يوم</span></span>
+        </div>
+      </article>
+
+      <div class="nav"><div class="on">الفرص</div><div>التنبيهات</div><div>المصادر</div><div>حسابي</div></div>
+    </div>
+  </section>
+
+  <!-- ============ الاتجاه ب ============ -->
+  <section class="B dirview hidden" id="viewB">
+    <p class="dir-label"><strong>الفكرة:</strong> إحساس تطبيق حديث — بطاقات مرتفعة عن الأرضية، أزرق نيلي مع برتقالي للأزرار المهمة، مساحات تنفس أوسع. أقرب لتطبيقات التوصيل والبنوك الرقمية.</p>
+    <div class="mock" aria-label="معاينة الاتجاه ب">
+      <div class="top">
+        <div class="brandline"><span class="brand">توريد</span><span class="region">📍 غزة</span></div>
+        <div class="hello">صباح الخير — في 23 فرصة جديدة هذا الأسبوع</div>
+      </div>
+      <div class="search">🔍 ابحث عن فرصة: مواد بناء، غذائيات، طاقة…</div>
+      <div class="chips">
+        <span class="on">الكل</span><span>إنشاءات</span><span>غذائيات</span><span>طاقة</span><span>لوجستيات</span><span>خدمات تقنية</span>
+      </div>
+
+      <article class="card">
+        <div class="cardhead">
+          <h3>استدراج عروض أسعار: توريد 40 خيمة عائلية ومستلزمات إيواء</h3>
+          <span class="badge num">باقي 4 أيام</span>
+        </div>
+        <div class="org"><span class="avatar">هـ</span><span>الهلال الأحمر الفلسطيني · نُشر اليوم</span></div>
+        <div class="cardfoot"><span class="sector">إيواء ولوازم</span><span class="num">إغلاق 09/07/2026</span></div>
+      </article>
+
+      <article class="card">
+        <div class="cardhead">
+          <h3>توريد مواد غذائية أساسية لمراكز الإيواء — شمال غزة</h3>
+          <span class="badge calm num">باقي 9 أيام</span>
+        </div>
+        <div class="org"><span class="avatar">UN</span><span>الأونروا UNRWA · نُشر أمس</span></div>
+        <div class="cardfoot"><span class="sector">غذائيات</span><span class="num">إغلاق 14/07/2026</span></div>
+      </article>
+
+      <div class="cta">
+        <b>خلّي الفرص تلاحقك، مش العكس ⚡</b>
+        <p>اختار تخصصك مرة وحدة، وكل فرصة جديدة بتوصلك إشعار فوري على تيليجرام — مجاناً.</p>
+        <span class="btn">فعّل التنبيهات</span>
+      </div>
+
+      <article class="card">
+        <div class="cardhead">
+          <h3>توريد ألواح طاقة شمسية وبطاريات تخزين لمرافق صحية</h3>
+          <span class="badge num">باقي 7 أيام</span>
+        </div>
+        <div class="org"><span class="avatar">ع</span><span>جمعية العون الطبي · نُشر أمس</span></div>
+        <div class="cardfoot"><span class="sector">طاقة</span><span class="num">إغلاق 12/07/2026</span></div>
+      </article>
+
+      <article class="card">
+        <div class="cardhead">
+          <h3>أعمال إزالة ركام وتأهيل طرق — حي الزيتون</h3>
+          <span class="badge calm num">باقي 16 يوم</span>
+        </div>
+        <div class="org"><span class="avatar">UN</span><span>UNDP / PAPP · نُشر 03/07</span></div>
+        <div class="cardfoot"><span class="sector">إنشاءات</span><span class="num">إغلاق 21/07/2026</span></div>
+      </article>
+
+      <div class="nav"><div class="on">الفرص</div><div>التنبيهات</div><div>المصادر</div><div>حسابي</div></div>
+    </div>
+  </section>
+
+  <div class="compare">
+    <h2>شو الفرق عملياً؟</h2>
+    <div class="tablebox">
+      <table>
+        <tr><th></th><th>أ · السجل الرسمي</th><th>ب · التطبيق العصري</th></tr>
+        <tr><td>الإحساس</td><td>جهة رسمية موثوقة — "هذا مرجع"</td><td>خدمة ذكية سريعة — "هذا تطبيقي"</td></tr>
+        <tr><td>عند المؤسسات</td><td>أقوى حضوراً وهيبة</td><td>أخف وأقل رسمية</td></tr>
+        <tr><td>عند المورد الشاب</td><td>مألوف بس تقليدي</td><td>أحبب وأسهل بالاستخدام اليومي</td></tr>
+        <tr><td>كثافة المعلومات</td><td>أعلى — فرص أكثر بالشاشة</td><td>أقل — تركيز على فرصة فرصة</td></tr>
+        <tr><td>خفة التحميل</td><td>أخف بقليل (بدون ظلال وتأثيرات)</td><td>خفيف برضه، بس أثقل بصرياً</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="ask">
+    <p><strong>القرار إلك:</strong> أ، ب، ولا خلطة (مثلاً: كثافة أ مع نعومة ب)؟ أي تعديل بخطر ببالك — لون، حجم خط، ترتيب — قوله بكلماتك وأنا بترجمه تصميماً.</p>
+  </div>
+</div>
+
+<script>
+  const btnA = document.getElementById('btnA'), btnB = document.getElementById('btnB');
+  const viewA = document.getElementById('viewA'), viewB = document.getElementById('viewB');
+  function show(which) {
+    const a = which === 'A';
+    viewA.classList.toggle('hidden', !a);
+    viewB.classList.toggle('hidden', a);
+    btnA.setAttribute('aria-pressed', String(a));
+    btnB.setAttribute('aria-pressed', String(!a));
+  }
+  btnA.addEventListener('click', () => show('A'));
+  btnB.addEventListener('click', () => show('B'));
+</script>
