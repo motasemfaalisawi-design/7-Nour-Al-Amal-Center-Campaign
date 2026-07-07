@@ -7,7 +7,7 @@ import urllib.request
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent))
-from sources import wenak  # noqa: E402
+from sources import wenak, tender4arab  # noqa: E402
 from normalize import normalize  # noqa: E402
 
 UA = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
@@ -24,7 +24,7 @@ def fetch(url, timeout=30):
 def main():
     all_items = []
     errors = []
-    for mod in (wenak,):
+    for mod in (wenak, tender4arab):
         try:
             page = fetch(mod.LIST_URL)
             items = mod.parse(page)
@@ -46,7 +46,7 @@ def main():
 
     payload = {
         "generated_at": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
-        "sources": [wenak.SOURCE],
+        "sources": [wenak.SOURCE, tender4arab.SOURCE],
         "errors": errors,
         "count": len(existing),
         "items": sorted(existing.values(), key=lambda x: x["id"], reverse=True),

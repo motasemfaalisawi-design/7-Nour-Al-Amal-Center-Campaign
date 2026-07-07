@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>توريد — فرص التوريد والمناقصات في فلسطين، أول بأول</title>
+<meta name="description" content="كل المناقصات وطلبات عروض الأسعار في غزة والضفة بمكان واحد، مع تنبيهات فورية مجانية على تيليجرام.">
+__FONT_CSS__
+<style>
+  :root {
+    --bg:#F6F8FA; --surface:#FFFFFF; --ink:#1F2733; --muted:#6F7A8C; --line:#E6EAF1;
+    --primary:#14AE95; --primary-strong:#0E9A83; --primary-ink:#FFFFFF;
+    --mint:#E7F8F3; --mint-line:#C9EFE4;
+    --urgent:#C6473E; --urgent-bg:#FDECEA; --ok:#0F9A82; --ok-bg:#E7F8F3; --warn:#A8730E; --warn-bg:#FBF1DE;
+    --av1:#7A5AD0; --av1-bg:#F0EBFB; --av2:#3B77C9; --av2-bg:#E8F0FB; --av3:#C2497D; --av3-bg:#FBE9F1; --av4:#0E9A83; --av4-bg:#E7F8F3;
+    --shadow:0 1px 3px rgba(31,39,51,.05),0 6px 16px rgba(31,39,51,.05);
+  }
+  @media (prefers-color-scheme: dark) { :root {
+    --bg:#0F1620; --surface:#18212C; --ink:#E9EDF3; --muted:#93A0B4; --line:#27313F;
+    --primary:#2BD3B4; --primary-strong:#35E0C1; --primary-ink:#06251E;
+    --mint:#14332C; --mint-line:#1E4A40;
+    --urgent:#F0857C; --urgent-bg:#3B2320; --ok:#46D8BC; --ok-bg:#123A32; --warn:#E8B563; --warn-bg:#3A2E17;
+    --av1:#B3A0EE; --av1-bg:#2A2440; --av2:#8FB6EE; --av2-bg:#1C2A40; --av3:#EE9DC0; --av3-bg:#3A2230; --av4:#46D8BC; --av4-bg:#123A32;
+    --shadow:0 1px 3px rgba(0,0,0,.3),0 6px 16px rgba(0,0,0,.25);
+  } }
+  * { box-sizing:border-box; margin:0; }
+  body { font-family:'Noto Kufi Arabic','Segoe UI',Tahoma,sans-serif; background:var(--bg); color:var(--ink); min-height:100vh; }
+  .shell { max-width:520px; margin:0 auto; padding:0 0 40px; }
+  .num { font-variant-numeric:tabular-nums; }
+
+  .top { padding:18px 18px 0; }
+  .brandline { display:flex; align-items:center; justify-content:space-between; }
+  .brand { font-size:22px; font-weight:700; color:var(--primary); }
+  .regionbtns { display:flex; gap:6px; }
+  .regionbtns button { font-family:inherit; font-size:11.5px; font-weight:700; background:var(--surface); border:1px solid var(--line); border-radius:999px; padding:7px 14px; color:var(--muted); cursor:pointer; }
+  .regionbtns button.on { background:var(--primary); border-color:var(--primary); color:var(--primary-ink); }
+
+  .banner { display:flex; gap:12px; align-items:flex-start; margin:14px 18px 0; background:var(--mint); border:1px solid var(--mint-line); border-radius:14px; padding:13px 15px; }
+  .banner .spark { flex:none; width:34px; height:34px; border-radius:10px; background:var(--surface); display:grid; place-items:center; font-size:16px; box-shadow:var(--shadow); }
+  .banner b { font-size:13px; } .banner p { font-size:12px; color:var(--muted); line-height:1.9; margin-top:2px; }
+
+  .search { display:flex; align-items:center; gap:9px; margin:14px 18px 0; background:var(--surface); border:1px solid var(--line); border-radius:999px; padding:3px 16px; }
+  .search input { flex:1; border:0; background:transparent; font-family:inherit; font-size:13px; color:var(--ink); padding:9px 0; outline:none; }
+  .search input::placeholder { color:var(--muted); }
+
+  .tabs { display:flex; gap:7px; margin:14px 0 0; padding:0 18px; overflow-x:auto; scrollbar-width:none; }
+  .tabs button { font-family:inherit; font-size:12px; font-weight:500; background:var(--surface); border:1px solid var(--line); color:var(--muted); border-radius:999px; padding:8px 15px; white-space:nowrap; cursor:pointer; }
+  .tabs button.on { background:var(--primary); border-color:var(--primary); color:var(--primary-ink); font-weight:700; }
+
+  .chips { display:flex; gap:7px; margin:10px 0 0; padding:0 18px; overflow-x:auto; scrollbar-width:none; }
+  .chips button { font-family:inherit; font-size:11.5px; font-weight:500; background:var(--surface); border:1px solid var(--line); color:var(--muted); border-radius:8px; padding:6px 11px; white-space:nowrap; cursor:pointer; }
+  .chips button.on { border-color:var(--primary); color:var(--primary-strong); background:var(--mint); font-weight:700; }
+
+  .count { margin:12px 18px 0; font-size:11.5px; color:var(--muted); }
+
+  .card { background:var(--surface); border:1px solid var(--line); border-radius:16px; margin:12px 18px 0; padding:14px 15px; box-shadow:var(--shadow); display:block; text-decoration:none; color:inherit; }
+  .cardrow { display:flex; gap:12px; }
+  .avatar { flex:none; width:42px; height:42px; border-radius:12px; display:grid; place-items:center; font-size:14px; font-weight:700; }
+  .a1{background:var(--av1-bg);color:var(--av1);} .a2{background:var(--av2-bg);color:var(--av2);}
+  .a3{background:var(--av3-bg);color:var(--av3);} .a4{background:var(--av4-bg);color:var(--av4);}
+  .card h3 { font-size:13.5px; font-weight:700; line-height:1.8; }
+  .card .org { font-size:11.5px; color:var(--muted); margin-top:3px; line-height:1.8; }
+  .cardfoot { display:flex; justify-content:space-between; align-items:center; margin-top:11px; padding-top:10px; border-top:1px solid var(--line); gap:8px; flex-wrap:wrap; }
+  .sector { font-size:11px; font-weight:700; color:var(--primary-strong); background:var(--mint); border-radius:7px; padding:4px 10px; }
+  .state { display:inline-flex; align-items:center; gap:6px; font-size:11px; font-weight:700; border-radius:999px; padding:4px 11px; }
+  .state::before { content:""; width:6px; height:6px; border-radius:50%; background:currentColor; }
+  .st-urgent{color:var(--urgent);background:var(--urgent-bg);} .st-ok{color:var(--ok);background:var(--ok-bg);}
+  .st-warn{color:var(--warn);background:var(--warn-bg);} .st-off{color:var(--muted);background:var(--bg);}
+
+  .cta { margin:14px 18px 0; background:var(--surface); border:1px solid var(--line); border-radius:16px; padding:15px 16px; box-shadow:var(--shadow); }
+  .cta b { font-size:13.5px; } .cta p { font-size:12px; color:var(--muted); line-height:1.9; margin-top:4px; }
+  .cta .btn { display:inline-block; margin-top:11px; background:var(--primary); color:var(--primary-ink); font-size:12.5px; font-weight:700; border-radius:999px; padding:10px 20px; text-decoration:none; }
+
+  .empty { margin:30px 18px; text-align:center; color:var(--muted); font-size:13px; line-height:2; }
+  footer { margin:26px 18px 0; padding-top:14px; border-top:1px solid var(--line); font-size:11px; color:var(--muted); line-height:2; }
+</style>
+</head>
+<body>
+<div class="shell">
+  <header class="top">
+    <div class="brandline">
+      <span class="brand">توريد</span>
+      <span class="regionbtns" id="regions">
+        <button data-r="gaza" class="on">غزة</button>
+        <button data-r="west_bank">الضفة</button>
+        <button data-r="all">الكل</button>
+      </span>
+    </div>
+  </header>
+
+  <div class="banner">
+    <span class="spark">✨</span>
+    <div><b id="banner-title">أهلاً!</b><p id="banner-sub"></p></div>
+  </div>
+
+  <div class="search">
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" style="color:var(--muted)"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+    <input id="q" type="search" placeholder="ابحث: مواد بناء، غذائيات، طاقة شمسية…">
+  </div>
+
+  <div class="tabs" id="tabs">
+    <button data-t="all" class="on">الكل</button>
+    <button data-t="today">جديد اليوم</button>
+    <button data-t="closing">يغلق قريباً</button>
+  </div>
+
+  <div class="chips" id="sectors"></div>
+  <div class="count" id="count"></div>
+  <div id="list"></div>
+
+  <footer>
+    «توريد» يجمع الفرص المنشورة علناً ويرتّبها — التقديم دائماً عبر الجهة الناشرة من رابط المصدر.
+    <br>آخر تحديث للبيانات: <span id="updated" class="num"></span>
+  </footer>
+</div>
+
+<script>
+const DATA = __DATA_JSON__;
+const CTA_EVERY = 4; // بانر التنبيهات بعد كل N بطاقات
+const state = { region:'gaza', tab:'all', sector:null, q:'' };
+
+const $ = s => document.querySelector(s);
+const today = new Date(); today.setHours(0,0,0,0);
+const MS_DAY = 86400000;
+
+function daysLeft(d){ if(!d) return null; return Math.round((new Date(d+'T00:00:00') - today)/MS_DAY); }
+function stateClass(n){ if(n===null) return 'st-off'; if(n<0) return 'st-off'; if(n<=4) return 'st-urgent'; if(n<=8) return 'st-warn'; return 'st-ok'; }
+function stateText(n){ if(n===null) return 'راجع المصدر'; if(n<0) return 'مغلق'; if(n===0) return 'يغلق اليوم!'; if(n===1) return 'يغلق غداً'; return 'باقي '+n+(n<=10?' أيام':' يوم'); }
+const AV = ['a1','a2','a3','a4'];
+function avatar(it,i){ const base=(it.org||it.title||'؟').replace(/^(جمعية|شركة|مؤسسة|بلدية|وزارة|هيئة|عطاء|توريد|استدراج)\s+/,'').trim(); return `<span class="avatar ${AV[i%4]}">${base[0]||'؟'}</span>`; }
+
+function filtered(){
+  return DATA.items.filter(it=>{
+    if(state.region!=='all' && it.region!==state.region) return false;
+    if(state.sector && it.sector!==state.sector) return false;
+    const dl = daysLeft(it.deadline);
+    if(dl!==null && dl<0) return false; // المغلق يختفي من العرض الافتراضي
+    if(state.tab==='closing' && !(dl!==null && dl<=5)) return false;
+    if(state.tab==='today' && !/اليوم|ساعة|ساعات|دقيقة|دقائق/.test(it.published_rel||'') && it.published_rel!==fmtToday()) return false;
+    if(state.q){ const t=(it.title+' '+(it.org||'')+' '+(it.sector||'')+' '+(it.city||'')).toLowerCase(); if(!t.includes(state.q.toLowerCase())) return false; }
+    return true;
+  }).sort((a,b)=>(daysLeft(a.deadline)??999)-(daysLeft(b.deadline)??999));
+}
+function fmtToday(){ const d=new Date(); return String(d.getDate()).padStart(2,'0')+'/'+String(d.getMonth()+1).padStart(2,'0')+'/'+d.getFullYear(); }
+
+function render(){
+  const items = filtered();
+  const regionName = state.region==='gaza'?'غزة':state.region==='west_bank'?'الضفة':'فلسطين';
+  $('#banner-title').textContent='أهلاً!';
+  $('#banner-sub').textContent=`في ${items.length} فرصة متاحة الآن في ${regionName}` + (state.sector?` ضمن «${state.sector}»`:'');
+  $('#count').textContent = items.length ? `${items.length} فرصة — الأقرب إغلاقاً أولاً` : '';
+  const cta = `<div class="cta"><b>خلّي الفرص تلاحقك، مش العكس</b><p>اختار قطاعك ومنطقتك مرة وحدة — وكل فرصة جديدة بتوصلك فوراً على تيليجرام، مجاناً.</p><a class="btn" href="#" onclick="alert('قناة التنبيهات قريباً — هاي نسخة معاينة');return false;">فعّل التنبيهات المجانية</a></div>`;
+  let html='';
+  items.forEach((it,i)=>{
+    const dl=daysLeft(it.deadline);
+    html+=`<a class="card" href="${it.url}" target="_blank" rel="noopener">
+      <div class="cardrow">${avatar(it,i)}<div>
+        <h3>${esc(it.title)}</h3>
+        <div class="org">${esc(it.org||('عبر '+it.source))}${it.city?' · '+esc(it.city):''}${it.published_rel?' · '+esc(it.published_rel):''}</div>
+      </div></div>
+      <div class="cardfoot"><span class="sector">${esc(it.sector)}</span>
+      <span class="state ${stateClass(dl)} num">${stateText(dl)}${it.deadline?' · '+it.deadline.split('-').reverse().join('/'):''}</span></div></a>`;
+    if((i+1)%CTA_EVERY===0 && i<items.length-1) html+=cta;
+  });
+  if(!items.length) html=`<div class="empty">ما في نتائج بهالفلاتر حالياً.<br>جرّب توسّع البحث أو غيّر القطاع.</div>`;
+  else if(items.length<=CTA_EVERY) html+=cta;
+  $('#list').innerHTML=html;
+}
+function esc(s){ return String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
+
+// sector chips من البيانات نفسها
+(function(){
+  const counts={};
+  DATA.items.forEach(it=>{ counts[it.sector]=(counts[it.sector]||0)+1; });
+  const sectors=Object.entries(counts).sort((a,b)=>b[1]-a[1]);
+  $('#sectors').innerHTML=`<button class="on" data-s="">كل القطاعات</button>`+sectors.map(([s,c])=>`<button data-s="${esc(s)}">${esc(s)} (${c})</button>`).join('');
+})();
+
+document.body.addEventListener('click',e=>{
+  const b=e.target.closest('button[data-r],button[data-t],button[data-s]'); if(!b) return;
+  if(b.dataset.r!==undefined){ state.region=b.dataset.r; sel('#regions',b); }
+  if(b.dataset.t!==undefined){ state.tab=b.dataset.t; sel('#tabs',b); }
+  if(b.dataset.s!==undefined){ state.sector=b.dataset.s||null; sel('#sectors',b); }
+  render();
+});
+function sel(root,b){ document.querySelectorAll(root+' button').forEach(x=>x.classList.toggle('on',x===b)); }
+$('#q').addEventListener('input',e=>{ state.q=e.target.value.trim(); render(); });
+
+$('#updated').textContent=(DATA.generated_at||'').replace('T',' ').replace('Z',' UTC');
+render();
+</script>
+</body>
+</html>
