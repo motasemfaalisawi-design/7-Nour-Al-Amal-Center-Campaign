@@ -1,0 +1,44 @@
+name: تحديث بيانات العطاءات
+
+on:
+  schedule:
+    - cron: "17 */2 * * *"   # كل ساعتين
+  workflow_dispatch:          # تشغيل يدوي من تبويب Actions عند الحاجة
+
+permissions:
+  contents: write
+
+concurrency:
+  group: update-data
+  cancel-in-progress: false
+
+jobs:
+  scrape:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: تشغيل الجمع
+        run: python3 tender-platform/scraper/run.py
+
+      - name: بناء الموقع
+        run: python3 tender-platform/site/build.py
+
+      - name: إرسال التنبيهات (يعمل فقط بعد إضافة سر TG_TOKEN)
+        if: ${{ secrets.TG_TOKEN != '' }}
+        env:
+          TG_TOKEN: ${{ secrets.TG_TOKEN }}
+          TG_CHANNEL: ${{ secrets.TG_CHANNEL }}
+        run: python3 tender-platform/bot/notify.py
+
+      - name: حفظ التحديث
+        run: |
+          git config user.name "tawreed-bot"
+          git config user.email "actions@github.com"
+          git add tender-platform/data tender-platform/site/dist
+          if git diff --cached --quiet; then
+            echo "لا جديد"
+          else
+            git commit -m "تحديث آلي للعطاءات $(date -u +'%Y-%m-%d %H:%M')"
+            git push
+          fi
