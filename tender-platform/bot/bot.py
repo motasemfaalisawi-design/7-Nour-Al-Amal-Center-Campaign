@@ -5,6 +5,7 @@
 """
 import json
 import sys
+import threading
 import time
 from pathlib import Path
 
@@ -204,10 +205,13 @@ def main():
         try:
             for u in tg.get_updates(offset):
                 offset = u["update_id"] + 1
+                # كل تحديث بخيط مستقل — ضغطة زر ما تستنى إرسال دفعة فرص
                 if "message" in u:
-                    handle_message(subs, u["message"])
+                    threading.Thread(target=handle_message,
+                                     args=(subs, u["message"]), daemon=True).start()
                 elif "callback_query" in u:
-                    handle_callback(subs, u["callback_query"])
+                    threading.Thread(target=handle_callback,
+                                     args=(subs, u["callback_query"]), daemon=True).start()
         except KeyboardInterrupt:
             break
         except Exception as e:  # لا يسقط البوت بخطأ عابر
