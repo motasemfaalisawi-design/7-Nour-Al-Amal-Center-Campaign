@@ -42,7 +42,6 @@ def cities_kb(selected):
     wb_mark = "✅ " if set(WB_ALL) <= set(selected) else ""
     rows.append([{"text": f"{all_mark}🌍 كل المدن", "callback_data": "c:*"},
                  {"text": f"{wb_mark}⛰ كل الضفة", "callback_data": "c:wb"}])
-    rows.append([{"text": "✔️ تم اختيار المدن — التالي 👈", "callback_data": "cities_done"}])
     return rows
 
 
@@ -58,7 +57,6 @@ def sectors_kb(selected):
         rows.append(row)
     all_mark = "✅ " if not selected else ""
     rows.append([{"text": f"{all_mark}🌍 كل القطاعات", "callback_data": "s:*"}])
-    rows.append([{"text": "🔔 فعّل تنبيهاتي الآن ✅", "callback_data": "done"}])
     return rows
 
 
@@ -104,14 +102,16 @@ def prefs_line(sub):
 
 
 def send_batch(chat, items, header):
-    tg.send(chat, header, )
-    for i in range(0, len(items), 5):  # رسائل من 5 فرص لتفادي حدود الطول
-        tg.send(chat, "\n\n———\n\n".join(fmt_item(x) for x in items[i:i + 5]))
-        time.sleep(0.4)
+    tg.send(chat, header)
+    for it in items:  # كل فرصة برسالة مستقلة
+        tg.send(chat, fmt_item(it))
+        time.sleep(0.7)  # ضمن حدود المعدل لكل محادثة
 
 
 def start_prefs(chat, sub):
     tg.send(chat, "1️⃣ اختر مدنك (أكثر من وحدة عادي):", cities_kb(sub["cities"]))
+    tg.send(chat, "بعد ما تخلص اختيار مدنك، اضغط هون 👇",
+            [[{"text": "✔️ التالي: اختيار القطاعات", "callback_data": "cities_done"}]])
 
 
 def handle_message(subs, msg):
@@ -160,6 +160,8 @@ def handle_callback(subs, cb):
     elif data == "cities_done":
         tg.answer_callback(cb["id"])
         tg.send(chat, "2️⃣ اختر قطاعاتك (أكثر من واحد عادي):", sectors_kb(sub["sectors"]))
+        tg.send(chat, "بعد ما تخلص اختيار قطاعاتك، اضغط هون 👇",
+                [[{"text": "🔔 فعّل تنبيهاتي الآن", "callback_data": "done"}]])
     elif data.startswith("s:"):
         s = data[2:]
         if s == "*":
