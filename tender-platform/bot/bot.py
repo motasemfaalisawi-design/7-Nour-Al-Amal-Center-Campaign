@@ -12,7 +12,7 @@ sys.path.insert(0, str(Path(__file__).parent))
 sys.path.insert(0, str(Path(__file__).parent.parent / "scraper"))
 import tg  # noqa: E402
 import store  # noqa: E402
-from normalize import SECTORS, CITIES  # noqa: E402
+from normalize import SECTORS, CITIES, WB_ALL  # noqa: E402
 
 DATA = Path(__file__).parent.parent / "data" / "tenders.json"
 
@@ -39,8 +39,10 @@ def cities_kb(selected):
     if row:
         rows.append(row)
     all_mark = "✅ " if not selected else ""
+    wb_mark = "✅ " if set(WB_ALL) <= set(selected) else ""
     rows.append([{"text": f"{all_mark}🌍 كل المدن", "callback_data": "c:*"},
-                 {"text": "التالي ⬅️", "callback_data": "cities_done"}])
+                 {"text": f"{wb_mark}⛰ كل الضفة", "callback_data": "c:wb"}])
+    rows.append([{"text": "التالي ⬅️", "callback_data": "cities_done"}])
     return rows
 
 
@@ -144,6 +146,11 @@ def handle_callback(subs, cb):
         c = data[2:]
         if c == "*":
             sub["cities"] = []
+        elif c == "wb":
+            if set(WB_ALL) <= set(sub["cities"]):
+                sub["cities"] = [x for x in sub["cities"] if x not in WB_ALL]
+            else:
+                sub["cities"] = list(dict.fromkeys(sub["cities"] + WB_ALL))
         elif c in sub["cities"]:
             sub["cities"].remove(c)
         else:
