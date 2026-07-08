@@ -42,7 +42,7 @@ def cities_kb(selected):
     wb_mark = "✅ " if set(WB_ALL) <= set(selected) else ""
     rows.append([{"text": f"{all_mark}🌍 كل المدن", "callback_data": "c:*"},
                  {"text": f"{wb_mark}⛰ كل الضفة", "callback_data": "c:wb"}])
-    rows.append([{"text": "التالي ⬅️", "callback_data": "cities_done"}])
+    rows.append([{"text": "✔️ تم اختيار المدن — التالي 👈", "callback_data": "cities_done"}])
     return rows
 
 
@@ -57,8 +57,8 @@ def sectors_kb(selected):
     if row:
         rows.append(row)
     all_mark = "✅ " if not selected else ""
-    rows.append([{"text": f"{all_mark}🌍 كل القطاعات", "callback_data": "s:*"},
-                 {"text": "💾 فعّل تنبيهاتي", "callback_data": "done"}])
+    rows.append([{"text": f"{all_mark}🌍 كل القطاعات", "callback_data": "s:*"}])
+    rows.append([{"text": "🔔 فعّل تنبيهاتي الآن ✅", "callback_data": "done"}])
     return rows
 
 
