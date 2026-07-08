@@ -1,2 +1,4 @@
 __pycache__/
 *.pyc
+data/subscribers.json
+data/notified_ids.json
