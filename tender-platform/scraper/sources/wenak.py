@@ -14,7 +14,9 @@ CARD_RE = re.compile(
     r'tender-card__time">.*?<span>(?P<time>[^<]*)</span>',
     re.S,
 )
-DETAIL_URL_RE = re.compile(r'href="(https://www\.wenak\.ps/tender/detail/(\d+)\.html)"')
+# الرابط يُلتقط من أزرار المشاركة داخل البطاقة نفسها — الرابط المباشر href
+# يعود للبطاقة التالية (البطاقات ملفوفة برابط جارتها في ترتيب القراءة)
+DETAIL_URL_RE = re.compile(r'tender/detail/(\d+)\.html')
 DATE_RE = re.compile(r'(\d{4})\s*[/\-.]\s*(\d{1,2})\s*[/\-.]\s*(\d{1,2})|(\d{1,2})\s*[/\-.]\s*(\d{1,2})\s*[/\-.]\s*(\d{2,4})')
 DEADLINE_HINTS = ("آخر موعد", "الموعد النهائي", "تقديم العروض", "تسليم العطاء", "تسليم العروض", "أقصاه", "إغلاق", "اخر موعد")
 
@@ -53,7 +55,7 @@ def parse(page_html):
         m = CARD_RE.search(block)
         if not m:
             continue
-        url_m = DETAIL_URL_RE.search(block)
+        url_m = DETAIL_URL_RE.search(block[m.start():])
         detail_text = ""
         dm = re.search(r'tender-details__content(.*)', block, re.S)
         if dm:
@@ -61,8 +63,9 @@ def parse(page_html):
         deadline = _extract_deadline(detail_text)
         items.append({
             "source": SOURCE,
-            "source_id": url_m.group(2) if url_m else None,
-            "url": url_m.group(1) if url_m else LIST_URL,
+            "source_id": url_m.group(1) if url_m else None,
+            "url": (f"https://www.wenak.ps/tender/detail/{url_m.group(1)}.html"
+                    if url_m else LIST_URL),
             "title": _clean(m.group("title")),
             "org": _clean(m.group("org")),
             "location_raw": _clean(m.group("location")),
