@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""بوت «توريد» — تسجيل المشتركين واختيار المنطقة والقطاعات (long polling).
+"""بوت «توريد» — اشتراك بالمدن والقطاعات، دفعة أولى فورية ثم تنبيهات أولاً بأول.
 
 التشغيل: TG_TOKEN=xxx python3 bot/bot.py
 """
@@ -12,21 +12,36 @@ sys.path.insert(0, str(Path(__file__).parent))
 sys.path.insert(0, str(Path(__file__).parent.parent / "scraper"))
 import tg  # noqa: E402
 import store  # noqa: E402
-from normalize import SECTORS  # noqa: E402
+from normalize import SECTORS, CITIES  # noqa: E402
 
-REGIONS = {"gaza": "غزة", "west_bank": "الضفة", "all": "الكل"}
 DATA = Path(__file__).parent.parent / "data" / "tenders.json"
 
 WELCOME = (
     "أهلاً بك في <b>توريد</b> 🟢\n"
     "فرص التوريد والمناقصات في فلسطين — أول بأول.\n\n"
-    "اختر منطقتك، ثم قطاعاتك، وكل فرصة جديدة تناسبك بتوصلك هون فوراً — مجاناً."
+    "خطوتان بس: اختر مدنك، ثم قطاعاتك — وبتوصلك فوراً كل الفرص "
+    "المفتوحة المطابقة، وبعدها كل جديد أولاً بأول. مجاناً."
 )
+BTN_LATEST = "📋 آخر الفرص"
+BTN_PREFS = "⚙️ تعديل تفضيلاتي"
+MAIN_KB = {"keyboard": [[{"text": BTN_LATEST}, {"text": BTN_PREFS}]],
+           "resize_keyboard": True, "is_persistent": True}
 
 
-def region_kb(current):
-    return [[{"text": ("✅ " if k == current else "") + v, "callback_data": f"r:{k}"}
-             for k, v in REGIONS.items()]]
+def cities_kb(selected):
+    rows, row = [], []
+    for c in CITIES:
+        mark = "✅ " if c in selected else ""
+        row.append({"text": mark + c, "callback_data": f"c:{c}"})
+        if len(row) == 3:
+            rows.append(row)
+            row = []
+    if row:
+        rows.append(row)
+    all_mark = "✅ " if not selected else ""
+    rows.append([{"text": f"{all_mark}🌍 كل المدن", "callback_data": "c:*"},
+                 {"text": "التالي ⬅️", "callback_data": "cities_done"}])
+    return rows
 
 
 def sectors_kb(selected):
@@ -39,7 +54,9 @@ def sectors_kb(selected):
             row = []
     if row:
         rows.append(row)
-    rows.append([{"text": "💾 تم — فعّل تنبيهاتي", "callback_data": "done"}])
+    all_mark = "✅ " if not selected else ""
+    rows.append([{"text": f"{all_mark}🌍 كل القطاعات", "callback_data": "s:*"},
+                 {"text": "💾 فعّل تنبيهاتي", "callback_data": "done"}])
     return rows
 
 
@@ -49,50 +66,71 @@ def fmt_item(it):
         d = it["deadline"].split("-")  # YYYY-MM-DD → DD/MM/YYYY
         days = f"\n⏰ آخر موعد: {d[2]}/{d[1]}/{d[0]}"
     org = it.get("org") or f"عبر {it['source']}"
-    city = f" · {it['city']}" if it.get("city") else ""
+    city = " · " + "، ".join(it["cities"]) if it.get("cities") else ""
     return (f"📌 <b>{it['title']}</b>\n"
             f"🏢 {org}{city}\n"
             f"🏷 {it['sector']}{days}\n"
             f'🔗 <a href="{it["url"]}">رابط المصدر للتقديم</a>')
 
 
-def latest_matching(sub, limit=5):
+def matches(sub, it):
+    if sub.get("cities") and it.get("cities"):
+        if not set(sub["cities"]) & set(it["cities"]):
+            return False
+    if sub.get("sectors") and it["sector"] not in sub["sectors"]:
+        return False
+    return True
+
+
+def open_matching(sub, limit=None):
+    """الفرص المفتوحة (غير المنتهية) المطابقة لتفضيلات المشترك."""
     if not DATA.exists():
         return []
-    import time as _t
-    today = _t.strftime("%Y-%m-%d")
+    today = time.strftime("%Y-%m-%d")
     items = json.loads(DATA.read_text(encoding="utf-8"))["items"]
-    out = []
-    for it in items:
-        if it.get("deadline") and it["deadline"] < today:
-            continue  # المغلق لا يُعرض
-        if sub["region"] != "all" and it["region"] != sub["region"]:
-            continue
-        if sub["sectors"] and it["sector"] not in sub["sectors"]:
-            continue
-        out.append(it)
-        if len(out) >= limit:
-            break
-    return out
+    out = [it for it in items
+           if not (it.get("deadline") and it["deadline"] < today)
+           and matches(sub, it)]
+    out.sort(key=lambda x: x.get("deadline") or "9999")
+    return out[:limit] if limit else out
+
+
+def prefs_line(sub):
+    cities = "، ".join(sub["cities"]) if sub.get("cities") else "كل المدن"
+    sectors = "، ".join(sub["sectors"]) if sub.get("sectors") else "كل القطاعات"
+    return f"📍 {cities}\n🏷 {sectors}"
+
+
+def send_batch(chat, items, header):
+    tg.send(chat, header, )
+    for i in range(0, len(items), 5):  # رسائل من 5 فرص لتفادي حدود الطول
+        tg.send(chat, "\n\n———\n\n".join(fmt_item(x) for x in items[i:i + 5]))
+        time.sleep(0.4)
+
+
+def start_prefs(chat, sub):
+    tg.send(chat, "1️⃣ اختر مدنك (أكثر من وحدة عادي):", cities_kb(sub["cities"]))
 
 
 def handle_message(subs, msg):
     chat = msg["chat"]["id"]
     sub = store.get_sub(subs, chat)
+    sub.setdefault("cities", [])
     text = (msg.get("text") or "").strip()
-    if text.startswith("/start"):
-        tg.send(chat, WELCOME)
-        tg.send(chat, "1️⃣ اختر منطقتك:", region_kb(sub["region"]))
+    if text.startswith("/start") or text == BTN_PREFS:
+        if text.startswith("/start"):
+            tg.call("sendMessage", chat_id=chat, text=WELCOME, parse_mode="HTML",
+                    reply_markup=MAIN_KB)
+        start_prefs(chat, sub)
     elif text.startswith("/stop"):
         sub["active"] = False
-        tg.send(chat, "وقّفنا التنبيهات. رجعتها بأي وقت بـ /start 👋")
-    else:
-        items = latest_matching(sub)
+        tg.send(chat, "وقّفنا التنبيهات. رجعها بأي وقت بـ /start 👋")
+    else:  # BTN_LATEST أو أي رسالة أخرى
+        items = open_matching(sub, limit=10)
         if items:
-            tg.send(chat, "آخر الفرص المطابقة لاختياراتك:\n\n" +
-                    "\n\n———\n\n".join(fmt_item(i) for i in items))
+            send_batch(chat, items, f"آخر الفرص المطابقة لتفضيلاتك:\n{prefs_line(sub)}")
         else:
-            tg.send(chat, "ما في فرص مطابقة حالياً — أول ما يصدر جديد بيوصلك تنبيه ⚡")
+            tg.send(chat, "ما في فرص مفتوحة مطابقة حالياً — أول ما يصدر جديد بيوصلك ⚡")
     store.save_subs(subs)
 
 
@@ -100,16 +138,26 @@ def handle_callback(subs, cb):
     chat = cb["message"]["chat"]["id"]
     mid = cb["message"]["message_id"]
     sub = store.get_sub(subs, chat)
+    sub.setdefault("cities", [])
     data = cb["data"]
-    if data.startswith("r:"):
-        sub["region"] = data[2:]
-        tg.answer_callback(cb["id"], f"المنطقة: {REGIONS[sub['region']]}")
-        tg.edit_markup(chat, mid, region_kb(sub["region"]))
-        tg.send(chat, "2️⃣ اختر قطاعاتك (تقدر تختار أكثر من واحد):",
-                sectors_kb(sub["sectors"]))
+    if data.startswith("c:"):
+        c = data[2:]
+        if c == "*":
+            sub["cities"] = []
+        elif c in sub["cities"]:
+            sub["cities"].remove(c)
+        else:
+            sub["cities"].append(c)
+        tg.answer_callback(cb["id"])
+        tg.edit_markup(chat, mid, cities_kb(sub["cities"]))
+    elif data == "cities_done":
+        tg.answer_callback(cb["id"])
+        tg.send(chat, "2️⃣ اختر قطاعاتك (أكثر من واحد عادي):", sectors_kb(sub["sectors"]))
     elif data.startswith("s:"):
         s = data[2:]
-        if s in sub["sectors"]:
+        if s == "*":
+            sub["sectors"] = []
+        elif s in sub["sectors"]:
             sub["sectors"].remove(s)
         else:
             sub["sectors"].append(s)
@@ -118,11 +166,15 @@ def handle_callback(subs, cb):
     elif data == "done":
         sub["active"] = True
         tg.answer_callback(cb["id"], "تم ✅")
-        chosen = "، ".join(sub["sectors"]) if sub["sectors"] else "كل القطاعات"
-        tg.send(chat, f"تمام! 🎉 تنبيهاتك مفعّلة:\n"
-                      f"📍 {REGIONS[sub['region']]} — 🏷 {chosen}\n\n"
-                      f"أول فرصة جديدة تطابق اختياراتك بتوصلك فوراً.\n"
-                      f"ابعت أي رسالة لعرض آخر الفرص المطابقة.")
+        tg.send(chat, f"تمام! 🎉 تنبيهاتك مفعّلة:\n{prefs_line(sub)}\n\n"
+                      f"غيّر تفضيلاتك بأي وقت من زر «{BTN_PREFS}» تحت 👇")
+        items = open_matching(sub)
+        if items:
+            send_batch(chat, items,
+                       f"وهاي كل الفرص المفتوحة حالياً المطابقة لاختيارك ({len(items)}) — "
+                       f"من هلأ الجديد بيوصلك أولاً بأول:")
+        else:
+            tg.send(chat, "ما في فرص مفتوحة مطابقة هاللحظة — أول جديد بيوصلك فوراً ⚡")
     store.save_subs(subs)
 
 

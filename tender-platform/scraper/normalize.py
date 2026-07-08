@@ -2,6 +2,15 @@
 """توحيد بيانات العطاءات: وسم المنطقة (غزة/الضفة) والمدينة والقطاع الموحد."""
 import re
 
+# قائمة المدن الفلسطينية المعتمدة (بأسمائها الأصلية) — تُعرض في البوت وتُستخدم للفلترة
+CITIES = [
+    "غزة", "جباليا", "دير البلح", "خانيونس", "رفح",
+    "القدس", "رام الله", "البيرة", "بيت لحم", "الخليل", "أريحا",
+    "نابلس", "جنين", "طولكرم", "قلقيلية", "سلفيت", "طوباس",
+    "يافا", "حيفا", "عكا", "الناصرة", "اللد", "الرملة", "بئر السبع",
+]
+GAZA_ALL = ["غزة", "جباليا", "دير البلح", "خانيونس", "رفح"]
+
 # مدن غزة — الفصل الجغرافي حسب مكان التنفيذ (قرار معتمد بدراسة المرحلة صفر)
 GAZA_CITIES = {
     "قطاع غزة": None,  # غزة عموماً بدون مدينة محددة — يجب فحصها قبل "غزة"
@@ -79,6 +88,19 @@ def normalize_deadline(raw):
     return f"{y:04d}-{mo:02d}-{d:02d}"
 
 
+def tag_cities(region, city, location_raw):
+    """يعيد قائمة مدن معيارية للفلترة في البوت."""
+    if region == "gaza":
+        if city == "الشمال":
+            return ["جباليا"]
+        return [city] if city else list(GAZA_ALL)  # قطاع غزة عام = كل مدنه
+    loc = location_raw or ""
+    found = [c for c in CITIES if c in loc]
+    if "رام الله" in loc and "البيرة" not in found:
+        found.append("البيرة")  # "رام الله والبيرة" تغطي المدينتين
+    return found
+
+
 def normalize(items):
     out = []
     for it in items:
@@ -88,6 +110,7 @@ def normalize(items):
             "id": f'{it["source"]}:{it.get("source_id") or abs(hash(it["title"])) % 10**8}',
             "region": region,
             "city": city,
+            "cities": tag_cities(region, city, it.get("location_raw")),
             "sector": tag_sector(it),
             "deadline": normalize_deadline(it.get("deadline_raw")),
         })

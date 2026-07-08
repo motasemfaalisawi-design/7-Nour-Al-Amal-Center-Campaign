@@ -19,14 +19,11 @@ DATA = Path(__file__).parent.parent / "data" / "tenders.json"
 CHANNEL = os.environ.get("TG_CHANNEL", "")
 
 
+from bot import matches as _prefs_match  # noqa: E402
+
+
 def matches(sub, it):
-    if not sub.get("active"):
-        return False
-    if sub["region"] != "all" and it["region"] != sub["region"]:
-        return False
-    if sub["sectors"] and it["sector"] not in sub["sectors"]:
-        return False
-    return True
+    return bool(sub.get("active")) and _prefs_match(sub, it)
 
 
 def main():
