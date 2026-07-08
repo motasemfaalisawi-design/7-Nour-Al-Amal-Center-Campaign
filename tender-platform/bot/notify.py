@@ -34,7 +34,10 @@ def main():
         sys.exit("ضع التوكن في متغير البيئة TG_TOKEN")
     items = json.loads(DATA.read_text(encoding="utf-8"))["items"]
     sent = store.load_sent()
-    new = [it for it in items if it["id"] not in sent]
+    today = time.strftime("%Y-%m-%d")
+    new = [it for it in items
+           if it["id"] not in sent
+           and not (it.get("deadline") and it["deadline"] < today)]
     if not new:
         print("no new items")
         return

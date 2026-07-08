@@ -46,7 +46,8 @@ def sectors_kb(selected):
 def fmt_item(it):
     days = ""
     if it.get("deadline"):
-        days = f"\n⏰ الإغلاق: {it['deadline']}"
+        d = it["deadline"].split("-")  # YYYY-MM-DD → DD/MM/YYYY
+        days = f"\n⏰ آخر موعد: {d[2]}/{d[1]}/{d[0]}"
     org = it.get("org") or f"عبر {it['source']}"
     city = f" · {it['city']}" if it.get("city") else ""
     return (f"📌 <b>{it['title']}</b>\n"
@@ -58,9 +59,13 @@ def fmt_item(it):
 def latest_matching(sub, limit=5):
     if not DATA.exists():
         return []
+    import time as _t
+    today = _t.strftime("%Y-%m-%d")
     items = json.loads(DATA.read_text(encoding="utf-8"))["items"]
     out = []
     for it in items:
+        if it.get("deadline") and it["deadline"] < today:
+            continue  # المغلق لا يُعرض
         if sub["region"] != "all" and it["region"] != sub["region"]:
             continue
         if sub["sectors"] and it["sector"] not in sub["sectors"]:
