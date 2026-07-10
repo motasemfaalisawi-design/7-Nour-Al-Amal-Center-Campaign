@@ -187,9 +187,13 @@ def handle_callback(subs, cb):
                       f"غيّر تفضيلاتك بأي وقت من زر «{BTN_PREFS}» تحت 👇")
         items = open_matching(sub)
         if items:
-            send_batch(chat, items,
-                       f"وهاي كل الفرص المفتوحة حالياً المطابقة لاختيارك ({len(items)}) — "
-                       f"من هلأ الجديد بيوصلك أولاً بأول:")
+            batch = items[:8]  # دفعة أولى محدودة — لا نغرق المشترك الجديد
+            extra = (f"\n\nوفي {len(items) - len(batch)} فرصة مفتوحة غيرها مطابقة لاختيارك — "
+                     f"اطلبها بزر «{BTN_LATEST}»" if len(items) > len(batch) else "")
+            send_batch(chat, batch,
+                       f"وهاي أحدث الفرص المفتوحة المطابقة لاختيارك "
+                       f"({len(batch)} من أصل {len(items)}) — "
+                       f"من هلأ الجديد بيوصلك أولاً بأول:{extra}")
         else:
             tg.send(chat, "ما في فرص مفتوحة مطابقة هاللحظة — أول جديد بيوصلك فوراً ⚡")
     store.save_subs(subs)
