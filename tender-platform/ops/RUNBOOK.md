@@ -15,7 +15,7 @@
 | توكن البوت | في `.env` (مفتاح `TG_TOKEN`) — وعند الحاجة: BotFather → /mybots → API Token | المالك |
 | المستودع | github.com/motasemfaalisawi-design/7-Nour-Al-Amal-Center-Campaign — مجلد `tender-platform/` — فرع العمل `claude/gaza-market-business-2n74o6` | المالك |
 | المعاينة الحية | claude.ai/code/artifact/cc3dc8ff-e7d3-43ae-817f-acf73dcac9c1 | جلسة Claude |
-| قناة واتساب | لم تُنشأ بعد — ملخص يومي جاهز للنسخ يصل للمالك 08:10 صباحاً عبر البوت (bot/digest.py) | المالك |
+| قناة واتساب | ✅ **whatsapp.com/channel/0029Vb7aSsRADTOA5gJMoJ2u** «توريد — عطاءات ومناقصات غزة» — نشر يدوي بملخص يومي 08:10ص عبر البوت | المالك |
 | قناة تيليجرام العامة | ✅ **t.me/TawreedGaza** «توريد - عطاءات ومناقصات غزة» — البوت مشرف ناشر؛ افتُتحت 2026-07-10 | المالك |
 | الدومين | لم يُشترَ — المرشح: tawreed.ps (متاح على الأرجح)؛ munaqasati.com وtawreedy.com متاحان | يُحسم لاحقاً |
 
