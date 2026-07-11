@@ -25,11 +25,15 @@ jobs:
         run: python3 tender-platform/site/build.py
 
       - name: إرسال التنبيهات (يعمل فقط بعد إضافة سر TG_TOKEN)
-        if: ${{ secrets.TG_TOKEN != '' }}
         env:
           TG_TOKEN: ${{ secrets.TG_TOKEN }}
           TG_CHANNEL: ${{ secrets.TG_CHANNEL }}
-        run: python3 tender-platform/bot/notify.py
+        run: |
+          if [ -z "$TG_TOKEN" ]; then
+            echo "لا يوجد TG_TOKEN — تخطي التنبيهات"
+          else
+            python3 tender-platform/bot/notify.py
+          fi
 
       - name: حفظ التحديث
         run: |
