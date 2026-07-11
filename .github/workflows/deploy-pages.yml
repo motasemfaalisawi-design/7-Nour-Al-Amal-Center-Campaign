@@ -3,6 +3,9 @@ name: نشر الموقع
 on:
   push:
     branches: [claude/gaza-market-business-2n74o6, main]
+  workflow_run:
+    workflows: ["تحديث بيانات العطاءات"]   # ينشر بعد كل جمع آلي
+    types: [completed]
   workflow_dispatch:
 
 permissions:
